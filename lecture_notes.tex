@@ -1,0 +1,240 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{titlesec}
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usepackage[T1]{fontenc}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{cor}
+\newtheorem{cor}{Corollary}
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{lemma}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{example}
+\newtheorem{example}{Example}
+
+
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{}{1em}{}
+\titleformat{\subsection}[hang]{\bfseries}{}{1em}{}
+\author{Stephen Diadamo}
+\title{Functional Analysis}
+\begin{document}
+
+\section{Functional Analysis Lecture Notes}
+\subsection*{October 13, 2015}
+\textbf{Function analysis }
+\begin{itemize}
+	\item is the foundation of modern analysis
+	\item grew up in the 1920's
+	\item is the mathematical framework for quantum theory and many continuous models in engineering, economics, etc.
+	\item combines analysis, topology, and algebra
+	\item studies topological vector spaces and mappings between them
+	\item generalizes linear algebra to infinite dimensions 
+\end{itemize}
+\section{Topological Spaces}
+
+\begin{definition}
+Let X be a set and $\tau$ a collection of subsets of X. (X, $\tau$) is a $\textit{topological space}$ iff
+\begin{enumerate}
+\item \{X, $\varnothing \} \in \tau$
+\item {U, V} $\in\tau \rightarrow$ U $\cap $ V $\in\tau$
+\item $\tau$ is closed under arbitrary unions, that is, if $\forall i\in I : U_i \in\tau$ then $\bigcup_{i \in I} U_i \in \tau$  
+\end{enumerate}
+\end{definition}
+$\tau$ is then called a \textit{topology}, its elements are \textit{open sets} and their complements are \textit{closed sets}.
+
+\begin{definition}
+\textbf{Open Set} \\
+A set is called open if it is a neighbourhood of every point. 
+\end{definition}
+\begin{definition}
+\textbf{Neighbourhood} \\
+A neighbourhood of set $S$ is a set $P$ that contains an open set $U$ so $S \subset U \subset P$. 
+\end{definition}
+
+\noindent Topological spaces are the most general framework for 'doing analysis' (i.e. where notions like convergence, continuity, compactness, etc. are defined).  The family of all topologies on $X$ is partially ordered by inclusions if $\tau_1, \tau_2$ are two topologies, we call $\tau_1$ "weaker"/"courser" than $tau_2$ iff $\tau_1 \subseteq \tau_2$. The "discrete topology" $\tau_{discrete} \coloneqq  \{U \subseteq X\}$ is thus the strongest and the "trivial (or indiscrete) topology" $\tau_{trivial}\coloneqq {\varnothing, X}$ the weakest.
+
+\begin{definition}
+Let $(X, \tau)$ be a topological space and $A \subseteq X$.
+\begin{itemize}
+\item The \textbf{closure} of $A$, $\overline{A}$, is the smallest closed set including $A$. (i.e. the intersection of all closed sets containing $A$).
+\item The \textbf{interior} of $A$, $\text{int}(A)$, is the largest open set contained in $A$.
+\item The \textbf{boundary} of $A$ is defined as $\partial A \coloneqq \overline{A} \setminus \text{int}(A) =  \overline{A} \cap \overline{[X\\A]}$.
+\item $A$ is called \textbf{dense} in $X$ iff $\overline{A} = X$.
+\item $A$ is called \textbf{neighbourhood} of $x\in X$ iff $\exists U \in \tau : x\in U \subseteq A$.
+\item $B \subseteq \tau$ is called a \textbf{base} for $\tau$ iff $\exists U \in \tau$ that is of the form $U = \cup_{\alpha} V_{\alpha}$ for some family $\{ V_{\alpha} \subseteq B$.
+\item $(X, tau)$ is called \textbf{Hausdorff Space} iff $\forall x, y \in X, \exists U_x, U_y \in \tau : x\in U_x \wedge y\in U_y \wedge (X \neq y \Rightarrow U_x \cap U_y = \varnothing$.
+\item $(X, \tau)$ is called \textbf{seperable} iff it contains a countable, dense, subset $C \subseteq X = \tau$.
+\end{itemize}
+\end{definition}
+
+\noindent There are two important ways of constructing topologies:
+\begin{enumerate}
+\item \textbf{Metric Topologies}: If $(X, d)$ is a metric space, then $d$ induces a topology $\tau$ via 
+\begin{align*}
+U\in \tau \Leftrightarrow \forall x \in U \exists \epsilon > 0 : B_{\epsilon}(x) \subset U
+\end{align*}
+where $B_{\epsilon} \coloneqq \{y\in X | d(x, y) < \epsilon\}$.
+\begin{itemize}
+\item $\{B_{\epsilon}(x)\}_{\epsilon > 0, x \in X}$ is then a base for the topology.
+\item A topological space for which there is such a metric is called \textbf{metrizable}.
+\item Metrizable spaces are Hansdorff. Hence, non-Hansdorff topologies (such as the trival topology if $|X| \geq 2$ or the Zariski topology from algebraic geometry) are not metrizable. 
+\item Most notions used in metric  spaces have a topological generalization (see above). Important exceptions are \textbf{completeness}, \textbf{boundedness}, and \textbf{uniform continuity}.
+\end{itemize}
+\item \textbf{Weak topologies}. We need the notion of continuity for this.
+\begin{definition}
+Let $(X_i, \tau_i)_{(i \in \{1, 2\})}$ be topological spaces and $f : X_1 \rightarrow X_2$. $f$ is called \textbf{continuous} iff the pre-image of any open set is open. It is called \textbf{open} iff the image of any open set is open and a \textbf{homeomorphism} iff it is an open, continuous bijection. Equivalently iff it is bijective and $f$ as well as $f^{-1}$ are continuous.
+\end{definition}
+\end{enumerate}
+Note that for any function $f:X_1 \rightarrow X_2$ between the sets, there are always topologies with respect to which $f$ is continuous. E.g. if $tau_1$ is the discrete topology or if $\tau_2$ is the trivial topology.
+\\ \\
+A so-called \textbf{weak topology} is now defined by requiring a family $\overline{f}$ of functions from a set $S$ into a topological space $(X, \tau)$ to be continuous. In order to make this construction, unique, one takes the weakest topology on $S$ for which this is the case.
+\\\\
+A base for this topology is given by all finite intersections of sets of the form $f^{-1}(u)$ where $f\in\overline{f}$ and $u\in\tau$.
+\\\\
+Three ways of constructing new topological spaces from old ones:
+\begin{enumerate}
+\item The \textbf{subspace} topology if a subset $S$ of a topological space $(X, \tau)$ is $\tau_S \coloneqq \{ V\subseteq S | \exists U \in \tau : U \cap S = V\}$. (Elements  of $\tau_S$ are sometimes called \textbf{relatively open}.
+\item The \textbf{product} topology of $(X_1, \tau_1)$ and $(X_2, \tau_2)$ is defined as
+\begin{align*}
+ \{ U \subseteq X_1 \times X_2 | \forall(x, y)\in U \text{ there are open neighbourhoods } U_x \in \tau_1, U_y \in \tau_2 : U_x \times U_y \subseteq U \}
+\end{align*}
+\item the \textbf{quotient} topology of a quotient $X \setminus \sim$ of $(X, \tau)$ is defined as $\{ U \subseteq X \setminus \sim  | q^{-1}(U) \in \tau \}$ where $q:X \rightarrow X\setminus \sim : q(x) = q(y) \Leftrightarrow x \sim y$.
+\end{enumerate}
+\begin{definition}
+Let $\mathbb{K}\in\{\mathbb{R}, \mathbb{C}\}$ be equipped with the usual (i.e. metric) topology. A $\mathbb{K}$-vector space $X$ together with a topology on $X$ is called \textbf{topological vector space} iff $\cdot : \mathbb{K} \times X \rightarrow X$ and $+ : X\times X \rightarrow X$ are continuous with respect to the product topology. 
+\end{definition}
+
+\noindent We will later see that all Banach and Hilbert spaces are examples of topological vector spaces.
+
+\begin{definition}
+Let $(X,\tau)$ be a topological space.
+\begin{itemize}
+\item A sequence $(X_n)$ in $X$ is said to \textbf{converge} to $x_0\in X$ iff for any neighbourhood $U$ of $x_0$ there is an $m\in \mathbb{N}$ such that  $\forall n > m : x_n \in U$.
+\item $A \subseteq X$ is called \textbf{sequentially compact} iff every sequence in $A$ has a subsequence converging to an element in $A$.
+\item $A \subseteq X $ is called \textbf{compact} iff every open cover of $A$ contains a finite subcover. That is, 
+\begin{align*}
+\left(A \subseteq \cup_{i \in I} U_i \wedge \{U_i\}_{i\in I} \subseteq \tau \Rightarrow \exists \zeta \subseteq I : |\zeta| < \infty \wedge \cup_{i\in \zeta} U_{i} \supseteq A\right)
+\end{align*}
+\end{itemize}
+\end{definition}
+\noindent There is no general relation between compactness and sequential compactness. In metric spaces, however, they are equivalent. 
+
+\begin{cor}
+If $A$ is a closed subset of a compact topological space $(X, \tau)$, then $A$ is compact.
+\end{cor}
+\begin{proof}
+For any open over $\cup_{i\in I} U_i \supseteq A, (\cup_{i\in I} U_i)\cup (X\setminus A) = X$ is an open cover of $X$ with finite subcover $\cup_{i\in\zeta} U_{i} \cup (X \setminus A) = X$. Hence, $\cup_{i \in \zeta} U_i \supseteq A$.
+\end{proof}
+
+\begin{cor}
+A compact set $K$ in a Hansdorff space $(X, \tau)$ is closed.
+\end{cor}
+\begin{proof}
+We show that $\forall x\in X \setminus K$ there is an open neighbourhood $U \supseteq X \setminus K$. Consequently $X \setminus K$ is open. Due to the Hansdorff property : $\forall y \in K$ there are disjoint open neighbourhoods $U_y, V_y$ with $x \in U_y$ and $y\in V_y$ where $\{V_y | y \in K\}$ is an open cover of K with finite subcover, say $\{V_i \}_{i \in \zeta}$. Then $U_i \coloneqq \cap_{i\in\zeta} U_i$ is an open neighbourhood of $x$ disjoint from $K$.
+\end{proof}
+\noindent Products of compact spaces are again compact in the product topology (Tychonoff's Theorem). The following implies that taking quotients preserves compactness as well (as the quotient map is continuous).
+
+\begin{theorem}
+If $f: X_1 \rightarrow X_2 $ is a continuous function between topological spaces $(X_i, \tau_i)$ and $K \subseteq X_1$ is compact, then $f(K)$ is compact. 
+\end{theorem}
+\begin{proof}
+Let $\cup_{i \in I} \supseteq f(K)$ be an open cover. Since $V_i \coloneqq f^{-1}(U_i)$ is open, $\cup _{i \in I} V_i \supseteq K$ is an open cover containing a finite subcover $\{ V_i\}_{i \in \zeta}$. Hence, 
+\begin{align*}
+f(K) \subseteq f\left(\cup_{i\in\zeta} V_i\right) &= f\left(\cup_{i\in\zeta} f^{-1}(U_i)\right) \\
+&= \cup_{i\in\zeta} f\left(f^{-1}(U_i)\right) \subseteq \cup_{i\in\zeta} U_i
+\end{align*} 
+\end{proof}
+
+\noindent Since a subset of $\mathbb{R}$ is compact iff it is closed and bounded, we get: 
+\begin{cor}
+If $K$ is compact and $f: K \rightarrow \mathbb{R}$ continuous, then $f(K)$ has a minimum and maximum.
+\end{cor}
+\section{Metrizable Spaces}
+\begin{itemize}
+\item A \textbf{metric space} $(X, d)$ is a set $X$ with a distance function $d : X\times X \rightarrow [0, \infty)$ such that $\forall x, y, z \in X$
+\begin{enumerate}[(i)]
+\item $d(x, y) \geq 0$ with equality iff $x=y$.
+\item $d(x, y) = d(y, x)$
+\item $d(x, z) \leq d(x, y) + d(y, z)$ 
+\end{enumerate} 
+\item A subset $S$ of a metric space is \textbf{bounded} iff $\exists r\in[0, \infty) : B_{r}(x) \supseteq S$ for some $x$.
+\item A metric space is called \textbf{complete} iff every Cauchy sequence converges
+\item A topological space $(X, \tau)$ is called \textbf{metrizable} iff it is homeomorphic to a metric space (equivalently iff there is a metric such that $\{ B_{\epsilon(x)} \}_{\epsilon\geq 0, x \in X}$ is a base for $\tau$, i.e. the topology is \textbf{induced} by the metric) and \textbf{completely metrizable} iff it is homeomorphic to a complete metric space.
+\end{itemize}
+
+\begin{itemize}
+\item In metric spaces: completeness $\Leftrightarrow$ sequential compactness
+\item Every normal vector space becomes a metric space with $d(x, y) \coloneqq \Vert x - y\Vert$
+\item Separable completely metrizable topological spaces are called \textbf{Polish spaces}
+\item Since a subset of a metric space is closed iff it contains all limit points of a sequence, the topology of a metric space is completely determined by its converging sequences. In general, one has to consider so-called \textbf{nets}.
+\end{itemize}
+
+\begin{lemma}
+Let $d_1, d_2$ be two metrics on $X$. They induce the same topology / are topologically equivalent if there are $k_1, k_2 > 0$ such that $\forall x, y \in X$, $k_1d_2(x, y) \leq d_1(x, y) \leq k_2 d_2 (x, y)$.
+\end{lemma}
+
+\begin{proof}
+Define $B_{\epsilon}^{i}(x) \coloneq \{ y\in X | d_i(x, y) < \epsilon\}$. We have to show that $B_{\epsilon}^{1}(x)$ is open in the topology induced by $d_2$. By symmetry, the same holds for $1\leftrightarrow 2$. $\forall y \in B_{\epsilon}^{1}(x) \exists \delta > 0 : B_{\delta}^{1}(y) \subseteq B_{\epsilon}^{1}(x)$. Hence, $B_{\delta/k_1}^{2}(y) \subseteq B_{\epsilon}^{1}(x)$. So for any $y\in B_{\epsilon}^{1}(x)$ there is an open $B^{2}$ neighbourhood inside $B^{1}$, which implies that $B^{1}$ is open with respect to $\tau_2$.
+\end{proof}
+
+\begin{definition}
+\textbf{Isometries}. Let $(X_i, d_i)_{i \in \{1,2\}}$ be a metric space.
+\begin{itemize}
+\item $f: X_1 \rightarrow X_2$ is called \textbf{isometry} iff $\forall x,y\in X_1: d_1(x, y) = d_2(f(x), f(y))$.
+\item The two metric spaces are called \textbf{isometric} iff there is a bijective isometry $f: X_1 \rightarrow X_2$.
+\end{itemize}
+\end{definition}
+\noindent Note that an isometry is automatically injective and that the inverse of a bijective isometry is again an isometry.
+\begin{definition} 
+\textbf{Completion}. A complete metric space $(y, delta)$ is a \textbf{completion} of the metric space $(X, d)$ iff there exists an isometry $f: X\rightarrow Y$ such that $\overline{f(X)} = Y $.
+\end{definition}
+\noindent In practice, one often identifies $X$ with $f(X)$ and thus considers $X$ as a dense subset of $Y$.
+
+\begin{theorem}
+\textbf{Existence of a completion} Every metric space $(X, d)$ has a completion.
+\end{theorem}
+\begin{proof}
+(Sketch) Define $y\coloneqq \{ Cauchy-sequence in X\} \setminus \sim $ where $(x_n) \sim (y_n) \Leftrightarrow \lim_{n \rightarrow \infty} d(x_n, y_n) = 0$ and $\delta Y\times Y \rightarrow [0, \infty)$.  $\delta([x], [y]) \coloneqq \lim_{n\rightarrow\infty} d(x_n, y_n)$. $(Y, \delta)$ can be shown to be a complete metric space. Take $f: X\rightarrow Y$ such that $f(a) \coloneqq (a, a, a, ...)$. This is an isometry, since $\delta(f(a), f(b)) = \lim_{n\rightarrow\infty} d(a, b) = d(a, b)$. 
+\\ \\
+Moreover, $\forall [x] \in Y$, we can construct a sequence in $f(x)$ that convergest to $[x]$. In fact, for $y_n \coloneqq f(x_n)$ we obtain $\delta(y_n, [x]) = \lim_{n\rightarrow\infty} d(y_{n,m}, x_m) = \lim_{n\rightarrow\infty} d(x_n, x_m)$. So $\delta(y_n, [x]) \rightarrow 0$ for some $n \rightarrow \infty$ since $(x_n)$ is a Cauchy sequence. 
+\end{proof}
+\begin{itemize}
+\item The completion of a metric space is unique in the sense that any two completions are isometric. 
+\item Since $f(x)$ is dense in $Y$, the completion of a separable metric space is again separable. 
+\item If there is a scalar product or norm, the completion preserves this  structure.
+\end{itemize}
+
+\begin{example}
+From the homework we know that $(C([0, 1], \mathbb{K}, \Vert\cdot\Vert_{\infty})$ with $\mathbb{K} \in \{ \mathbb{R}, \mathbb{C}\}$ is complete.
+\end{example}
+
+\begin{theorem}
+\textbf{Weierstrass Approximation Theorem}. The set $X$ of polynomials on $[0, 1]$ is dense in $Y$ (with respect to the metric induced by $\Vert \cdot \Vert_{\infty}$).
+\end{theorem}
+\noindent Consequently, $Y$ is the completion of $X$ with isometry $f: X \rightarrow Y, f \mapsto f$.
+
+\begin{theorem}
+If $S \subseteq X$ is a subset of a complete metric space $(X, d)$, then $(S, d)$ is compelte iff $S$ is closed.
+\end{theorem}
+\begin{proof}
+$(\Rightarrow)$: Let $(X_n)$ be a sequence in $S$ that converges to $x\in X$. $(X_n)$ is thus a Cauchy sequence and $x\in S$ by completeness of $S$. \\ \\
+$(\Leftarrow)$: Let $(X_n)$ be a Cauchy sequence in $S$. By completeness of $X$ it converges to some $x \in X$. Since $S$ is closed, $x \in S$. 
+\end{proof}
+\begin{itemize}
+\item The $(\Rightarrow)$ part actually shows that every complete subspace of a (not necessarily complete) metric space is closed.
+\item The theorem enables us to prove \textbf{completeness of a space} by 
+\begin{enumerate}[(i)]
+\item Considering it as a subspace of a larger complete space 
+\item Proving closedness
+\end{enumerate}
+\end{itemize} 
+\end{document}
