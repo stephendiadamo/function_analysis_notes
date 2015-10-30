@@ -21,6 +21,7 @@
 \theoremstyle{example}
 \newtheorem{example}{Example}
 
+\newcommand{\norm}[1]{\Vert #1 \Vert}
 
 \titleformat{\section}[block]{\Large\bfseries\filcenter}{}{1em}{}
 \titleformat{\subsection}[hang]{\bfseries}{}{1em}{}
@@ -60,7 +61,7 @@ A set is called open if it is a neighbourhood of every point.
 A neighbourhood of set $S$ is a set $P$ that contains an open set $U$ so $S \subset U \subset P$. 
 \end{definition}
 
-\noindent Topological spaces are the most general framework for 'doing analysis' (i.e. where notions like convergence, continuity, compactness, etc. are defined).  The family of all topologies on $X$ is partially ordered by inclusions if $\tau_1, \tau_2$ are two topologies, we call $\tau_1$ "weaker"/"courser" than $tau_2$ iff $\tau_1 \subseteq \tau_2$. The "discrete topology" $\tau_{discrete} \coloneqq  \{U \subseteq X\}$ is thus the strongest and the "trivial (or indiscrete) topology" $\tau_{trivial}\coloneqq {\varnothing, X}$ the weakest.
+\noindent Topological spaces are the most general framework for 'doing analysis' (i.e. where notions like convergence, continuity, compactness, etc. are defined).  The family of all topologies on $X$ is partially ordered by inclusions if $\tau_1, \tau_2$ are two topologies, we call $\tau_1$ "weaker"/"courser" than $\tau_2$ iff $\tau_1 \subseteq \tau_2$. The "discrete topology" $\tau_{discrete} \coloneqq  \{U \subseteq X\}$ is thus the strongest and the "trivial (or indiscrete) topology" $\tau_{trivial}\coloneqq \{\varnothing, X\}$ the weakest.
 
 \begin{definition}
 Let $(X, \tau)$ be a topological space and $A \subseteq X$.
@@ -237,4 +238,73 @@ $(\Leftarrow)$: Let $(X_n)$ be a Cauchy sequence in $S$. By completeness of $X$ 
 \item Proving closedness
 \end{enumerate}
 \end{itemize} 
+
+\begin{theorem}
+\textbf{Baire's Category Theorem} If $(U_n)$ is a sequence of open, dense subsets of a complete metric space $(X, d)$, then the intersection $U \coloneqq \cup_{n in \mathbb{N}}$ is dense in $X$
+\end{theorem}
+\begin{proof}
+We want to show that $B_{\epsilon_0}(x_0) \cup U \neq \varnothing$ for any $\epsilon_0 > 0, x_0 \in X$. Define $\overline{B}_{\epsilon}(x) \coloneqq \{ y\in X|d(x,y)\leq \epsilon\}$ and note that $\overline{B}_{\epsilon} \subseteq B_{2\epsilon}(x)$. Since $U_n$ is open and dense, $U_n \cup B_{\epsilon_0}(x_0)$ is open and non-empty. Consequently, there is $x_1\in X$ and $\epsilon_1 > 0$ such that $U_1 \cup B_{\epsilon_0}(x_0) \supseteq B_{2\epsilon_0}(x_0) \supseteq \overline{B}_{\epsilon_1}(x_1)$. Now construct a sequence of points $(x_n)$ in $X$ and radii $(\epsilon_n)$ such that $\overline{B}_{\epsilon_n}(x_n) \subseteq U_n \cup B_{\epsilon_{n-1}}(x_{n-1})$ and $\epsilon_n \in (0, 2^{-n}\epsilon_0]$. By construction, $\overline{B}_{\epsilon_n}(x_n) \subseteq \overline{B}_{n-1}(x_{n-1})$ and $\epsilon_n \rightarrow 0$ for $n\rightarrow \infty$. In particular, $d(x_n, x_m)\leq \epsilon_N = 2^{-N}\epsilon_0, \forall n,m >N$. So, $(x_n)$ is a Cauchy sequence and by completeness $\lim_{n\rightarrow 0} x_n = x_{\infty} \in \cup_{n\in \mathbb{N}} \overline{B}_{\epsilon_n}(x_n)$. Since $\forall n \in \mathbb{N}: x_{\infty} \in \overline{B}_{\epsilon_n}(x_n)\subseteq U_n$ we have $x_{\infty} \in B_{\epsilon_0}(x_0) \cup U$.
+\end{proof}
+
+A useful consequence is formulated in terms of \textbf{nowhere dense}.
+\begin{definition}
+A subset $S$ of a topological space is called \textbf{nowhere dense} iff its closure has empty interior : $\text{int}(\overline{S} = \varnothing$.
+\end{definition}
+Note that $S$ is nowhere dense iff its closure is. 
+
+\begin{cor}
+A complete metric space is never the countable union of nowhere dense sets
+\end{cor}
+\begin{proof}
+Assume $X = \bigcup_{n\in\mathbb{N}} c_n$ where $c_n$ is closed, that is, $U_n \coloneqq X \setminus c_n$ open. Then $\bigcup_{n\in\mathbb{N}} U_n = \bigcup_{n}(X\setminus c_n) = X \setminus \bigcup_{n} c_n = \varnothing$. By Baire's category theorem, at least one of the $U_n$is not dense. Then, however, $\text{int}(c_n) = X \setminus \overline{U_n} \neq \varnothing$.
+\end{proof}
+
+\section{Normed and Banach Spaces}
+
+\begin{definition}
+Let $X$ be a $\mathbb{K}$-vector space, $\mathbb{K}\in\{\mathbb{R}, \mathbb{C}\}$.
+\begin{itemize}
+\item $\Vert\cdot\Vert : X \mapsto [0, \infty)$ is called a \textbf{seminorm} iff $\forall x, y \in X, \forall \alpha\in\mathbb{K}$
+\begin{enumerate}[(i)]
+\item $\Vert x + y \Vert \leq \Vert x \Vert + \Vert y \Vert$
+\item $\Vert\alpha x \Vert = |\alpha| \Vert x \Vert$
+\end{enumerate}
+\item A seminorm is a \textbf{norm} iff $\norm{x} = 0 \Rightarrow x = 0$. $(X, \norm{\cdot})$ is then called a \textbf{normed space}.
+\item A \textbf{Banach Space} is a normed space that is complete
+\item The \textbf{linear span} of a subset $S \subseteq X$ is defined as $\text{span}(S) \coloneqq \left\{ \sum_{i = 1}^{n} \alpha_i x_i | n\in \mathbb{N} x_i \in S, \alpha_i \in \mathbb{R}\right\}$
+\end{itemize}
+\end{definition}
+\begin{itemize}
+\item \textbf{Completeness} refers to the metric space with $d(x, y) \coloneqq \norm{x - y}$.
+\item A metric is induced by a norm iff $\forall x,y,z \in X \forall\alpha\in\mathbb{K}:$
+\begin{enumerate}[(i)]
+\item $d(x+z, y+z) = d(x, y)$
+\item $d(\alpha x, \alpha y) = |\alpha| d(x, y)$
+\end{enumerate}
+To see that this is sufficient for the existence of a norm, consider $\norm{x} = d(x , 0)$ and verify the necessary properties. 
+\item Examples of \textbf{normed sequence spaces}
+\begin{enumerate}[(i)]
+\item $l_{\infty} \coloneqq \left\{ x \in \mathbb{K}^{\mathbb{N}} \mid \norm{x}_{\infty} \coloneqq \sup_{n} |x_n| \leq \infty \right\}$
+\item $c_0 \coloneqq \left\{ x \in \mathbb{K}^{\mathbb{N}} \mid \lim_{n \rightarrow \infty} x_n = 0 \right\}$ with $\norm{\cdot}_{\infty}$
+\item $l_{p} \coloneqq \left\{ x \in \mathbb{K}^{\mathbb{N}} \mid \norm{x}_p \coloneqq \left( \sum_n |x_n| \right)^{1/p} <\infty \right\}, p\in[1, \infty)$
+\item $c_c \coloneqq \left\{ x \in \mathbb{K}^{\mathbb{N}} \mid \left| \{n \mid x_n \neq 0\}\right| < \infty \right\} $
+\end{enumerate}
+As sets, these satisfy $c_c \subseteq l_p \subseteq l_q \subseteq c_0 \subseteq l_0$ for $p \leq q < \infty$. $\left( l_{\infty}, \norm{\cdot}_{\infty} \right)$ is a Banach space. Since $c_0$ is a closed subset in $l_\infty$, $\left(c_0, \norm{\cdot}_{\infty}\right)$ is also a Banach space. Also $\left(l_p, \norm{\cdot}_{p}\right)$ are Banach spaces. $c_c$ is dense in $l_p$ for $p < \infty$ with respect to $\norm{\cdot}_p$ and $c_c$ is dense in $c_0$ with respect to $\norm{\cdot}_{\infty}$. Since $c_c \neq l_p$, it is not a Banach space for any $\norm{\cdot}_p$, $p\in[1, \infty]$.
+\item $l_\infty$ can be generalized to arbitrary sets $X$: 
+\begin{align*}
+l_\infty(X) \coloneqq \left\{ f \in \mathbb{K}^{\mathbb{N}} \mid \norm{f}_\infty \coloneqq \sup_{x \in X} |f(x)| < \infty\right\}.
+\end{align*}
+$\left(l_\infty(x), \norm{\cdot}_\infty\right)$  then turns out to be a Banach space.
+\item Examples of \textbf{normed function spaces}:
+\begin{enumerate}[(1)]
+\item \textbf{Continuous functions}: for any topological space $(X, \tau)$ define,
+\begin{enumerate}[(i)]
+\item $c_b(x) \coloneqq \left\{ f : X \mapsto \mathbb{K} \mid f \text{ is continuous and } \norm{f}_{\infty} \coloneqq \sup_{x \in X} |f(x)| < \infty \right\}$
+\item 
+\end{enumerate}
+
+\end{enumerate}
+\end{itemize}
+
+
 \end{document}
