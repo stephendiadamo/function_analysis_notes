@@ -23,7 +23,7 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
-\newcommand{\norm}[1]{\Vert #1 \Vert}
+\newcommand{\norm}[1]{\left\Vert #1 \right\Vert}
 
 \titleformat{\section}[block]{\Large\bfseries\filcenter}{}{1em}{}
 \titleformat{\subsection}[hang]{\bfseries}{}{1em}{}
@@ -348,9 +348,17 @@ Suppose $x_n\in L_{\infty}$ and $\sum_{n=0}^{\infty}\norm{x_n}_{\infty} < \infty
 \begin{proof}
 It is  sufficient to prove $f(\frac{x+y}{2}) = \frac{1}{2}(f(x) + f(y))$ for any $x,y\in X$. The rest is done by iteration and continuity. Fix $x, y$ and define $\Delta(f)\coloneqq \norm{f(\frac{x+y}{2} - \frac{f(x) + f(y)}{2}}$. $\Delta$ is then uniformly bounded over all isometries in the sense that 
 \begin{align*}
-\Delta(f) \leq \frac{1}{2}\norm{f(\frac{x+y}{2}) - f(x)} + \frac{1}{2}\norm{f(\frac{x+y}{2}) - f(y)} = \frac{\norm{x-y}{2}
+\Delta(f) \leq \frac{1}{2}\norm{f(\frac{x+y}{2}) - f(x)} + \frac{1}{2}\norm{f(\frac{x+y}{2}) - f(y)} = \frac{\norm{x-y}}{2}
 \end{align*}  
-For any bijective isometry $f$ we can, however, contr
-
+For any bijective isometry $f$ we can, however, construct another bijective isometry $f'$ such that $\Delta(f') = z\Delta(f)$. Iterating this, it eventually contradicts the bound unless $\Delta(f) = 0$. $f'$ is constructed ad follows:
+\begin{align*}
+f' \coloneqq f^{-1} \circ \psi \circ f \text{ with } \psi(z) \coloneqq f(x) + f(y) - z, 
+\end{align*} 
+a reflection such that $f'(x) = y, f'(y) = x, \psi = \psi^{-1}$ is an isometry. Then 
+\begin{align*}
+\Delta(f') &= \norm{f^{-1}\left(f(x) - f(y) - f\left(\frac{x+y}{2}\right)\right) - \frac{x+y}{2}} \\ &= \norm{f(x) - f(y) - f\left(\frac{x+y}{2}\right) - f\left(\frac{x+y}{2}\right)} \\
+&= 2\Delta(f)
+\end{align*}
 \end{proof}
+The assumptions that $f$ is surjective or that the spaces are over $\mathbb{R}$ cannot be dropped. However, if $y$ is so-called 'strictly convex' (i.e. if its unit ball is strictly convex), then surjectiveity is not required. Our $\mathbb{C}$ linearity has to be replied by linear or conjugate-linear (which is the case for complex conjugation).
 \end{document}
