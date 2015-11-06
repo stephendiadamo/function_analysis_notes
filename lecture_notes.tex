@@ -20,6 +20,8 @@
 \newtheorem{lemma}{Lemma}
 \theoremstyle{example}
 \newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
 
 \newcommand{\norm}[1]{\Vert #1 \Vert}
 
@@ -299,12 +301,56 @@ $\left(l_\infty(x), \norm{\cdot}_\infty\right)$  then turns out to be a Banach s
 \begin{enumerate}[(1)]
 \item \textbf{Continuous functions}: for any topological space $(X, \tau)$ define,
 \begin{enumerate}[(i)]
-\item $c_b(x) \coloneqq \left\{ f : X \mapsto \mathbb{K} \mid f \text{ is continuous and } \norm{f}_{\infty} \coloneqq \sup_{x \in X} |f(x)| < \infty \right\}$
-\item 
+\item $c_b(x) \coloneqq \left\{ f : X \mapsto \mathbb{K} \mid f \text{ is continuous and } \norm{f}_{\infty} \coloneqq \sup_{x \in X} |f(x)| < \infty \right\}$ (bounded)
+\item $c_0(x) \coloneqq \left\{ f: X \mapsto \mathbb{K} \mid f \text{ is continuous} \wedge \forall \epsilon > 0: \left\{x\in X \mid |f(x)| \geq \epsilon\right\} \right\} \text{ is compact}$ (vanishing at infinity)
+\item $c_c(x) \coloneqq \left\{ f: X \mapsto \mathbb{K} \mid f \text{ is continuous} \wedge \sup(f) \coloneqq \overline{\left\{x\in X \mid f(x) \neq 0 \right\}}\right\} \text{ is compact}$ (compact support)
 \end{enumerate}
-
+Clearly, $c_c(x) \subseteq c_0(x) \subseteq c_b(x)$ with equality for compact $X$. In that case we write $C(x)$. With respect to $\norm{\cdot}_{\infty}$ the space $c_b(x)$ is a closed subspace of $c_{\infty}(x)$ (recall that uniform limits of continuous bounded functions are still continuous and bounded). So $(c_b(x), \norm{\cdot}_{\infty})$ is a Banach space. Similarly, $c_0{x}$ is closed in $c_b(x)$ with respect to $\norm{\cdot}_{\infty}$.
+\item \textbf{$L_p$-spaces}: Let $(X, \Sigma, \mu)$ be a measure space and $p\in [1, \infty]$. $L_p(x)$ denotes the set of equivalent classes of measure functions $f: X \mapsto \mathbb{C}$ for which $\norm{f}_p \coloneqq \left(\int_{x} |f(x)|^p d\mu(x)\right)^{1/p} < \infty$. Here, $f\sim g$ iff they differ only on a set of measure zero. Similarly, $L_{\infty}(x)$ is the set of equivalence classes of measure functions $f: X \mapsto \mathbb{C}$ for which the \textbf{essential supremum} is finite, that is, 
+\begin{align*}
+\norm{f}_{\infty} \coloneqq \inf\left\{ \mu\in\mathbb{R} \mid \mu\left\{ x \mid |f(x)| > \mu\right\} = 0 \right\} < \infty
+\end{align*}
+\textbf{Properties}
+\begin{itemize}
+\item $\left(L_p(x), \norm{\cdot}_{p}\right)$ is a Banach space $\forall p \in [1, \infty]$. 
+\item H\"{o}lders inequality: If $p\in[0,\infty], \frac{1}{p} + \frac{1}{q} = 1, f\in L_p(x), g\in L_q(x)$, then $fg\in L_1(x)$ and $\norm{fg}_1 \leq \norm{f}_p \norm{g}_q$
+\item  For $(X, \Sigma, \mu) = \left(\mathbb{N}, 2^{\mathbb{N}}, \text{counting measure} \right)$ we obtain $L_p(x) = L_p$.
+\item If $p<q$, then $\norm{f}_p \leq \norm{f}_q \mu(x)^{\frac{q - p}{pq}}$, so $\mu(x) < \infty \Rightarrow L_p \supseteq L_q$. (but $L_p \subseteq L_q$).
+\end{itemize}
+\item \textbf{Spaces of Differentiable functions}: The space $c^{n}([a , b], \mathbb{K})$ of $n \in \mathbb{N}$ times continuously differentiable functions is a subspace of $c([a, b])$, but not closed with respect to $\norm{\cdot}_{\infty}$ (e.g. $\sqrt{x^2 + \frac{1}{n}} \hspace{2mm}n \to \infty \hspace{2mm} |x|$). It becomes a Banach space when equipped with $\norm{f} \coloneqq \sum_{k = 0}^{n} \norm{f^{(k)}}_{\infty}$. (Note that now for the above example $\norm{f_n - f_m} \not\to 0$).
+\item \textbf{Spaces of Holomorphic Functions}: For $mathbb{D} \coloneqq \left\{ z \in \mathbb{C} \mid |z| < 1\right\}$ the \textbf{Hardy space} $H_{\infty}$ is the space of all bounded holomorphic functions $f: \mathbb{D}\to\mathbb{C}$. This is a closed subspace of $(C_b(\mathbb{D}), \norm{\cdot}_{\infty})$ since uniform limits of holomorphic functions are holomorphic. So $(H_{\infty}, \norm{\cdot}_{\infty})$ is a Banach space.
 \end{enumerate}
 \end{itemize}
 
+\begin{theorem}
+A normed space $(X, \norm{\cdot})$ is complete iff every absolutely convergent series converges (i.e. $\sum_{k = 1}^{\infty} \norm{x_k} < \infty \rightarrow \exists x_{\infty} \in X : \norm{\sum_{k=1}^{n} x_k - x_{\infty}} \to 0$).
+\end{theorem}
+\begin{proof}
+Assume $(X, \norm{\cdot})$ is complete and $\sum_{k=1}^{\infty} < \infty$. Define $S_n \coloneqq \sum_{k=1}^{n} x_k$. With $n>m: \norm{S_n -S_m} = \norm{\sum_{k=m+1}^{n} x_k} \leq \sum_{k=m+1}^{n} \norm{x_k} \leq \sum_{k=m+1}^{\infty} \norm{x_k} \to 0$. Hence, $(S_n)$ is a Cauchy sequence and thus convergent. 
 
+In the other direction, consider a Cauchy sequence $(x_n)$. By taking a subsequence we can, without loss of generality, ensure that this converges fast in the sense that $\norm{x_n - x_m} < 2^{-n}$ for $n\leq m$. With $x_0 \coloneqq 0$ and $y_n \coloneqq x_k - x_{k-1}$ we obtain $x_n = \sum_{k=1}^{n} y_k$ and $\norm{y_k} < 2^{1 - k}$. So $\sum_{k} y_{k}$ is absolutely convergent, and by assumption $x_n = \sum_{k = 1}^{n} y_k \to x_{\infty} \in X$.
+\end{proof}
+
+\begin{remark}
+In a Banach space every absolutely convergent series converges unconditionally in the sense that $\sum_{k} x_k = \sum_{\pi(k)}$ for every permutation $\pi : \mathbb{N} \to \mathbb{N}$. The converse holds (unconditional $\Rightarrow$ absolute convergence) iff the Banach space is finite dimensional. 
+\end{remark}
+
+\begin{cor}
+$\left(L_{\infty}, \norm{\cdot}\right)$ is complete.
+\end{cor}
+\begin{proof}
+Suppose $x_n\in L_{\infty}$ and $\sum_{n=0}^{\infty}\norm{x_n}_{\infty} < \infty$. Then $\norm{\sum_{n=0}^{\infty}}_{\infty} \leq \sum{n=0}^{\infty} \norm{x_n}_{\infty} < \infty$, so $x\in L_{\infty}$. Moreover, $\sum_{n =1}^{N}x_n \hspace{2mm} N\to\infty \hspace{2mm} x$ since $\norm{x - \sum_{n=1}^{N} x_n}_{\infty} = \norm{\sum_{x_n}} \leq \sum_{n = N+1}^{\infty} \norm{x_n} \to 0 \hspace{2mm} N\to\infty$ 
+\end{proof}
+
+\begin{theorem}
+\textbf{(Mazur-Ulam)} Every surjective isometry $f: X \to Y$ between real normed spaces is affine (i.e., $\tilde{f}(x)\coloneqq f(x) - f(0)$ is linear).
+\end{theorem}
+\begin{proof}
+It is  sufficient to prove $f(\frac{x+y}{2}) = \frac{1}{2}(f(x) + f(y))$ for any $x,y\in X$. The rest is done by iteration and continuity. Fix $x, y$ and define $\Delta(f)\coloneqq \norm{f(\frac{x+y}{2} - \frac{f(x) + f(y)}{2}}$. $\Delta$ is then uniformly bounded over all isometries in the sense that 
+\begin{align*}
+\Delta(f) \leq \frac{1}{2}\norm{f(\frac{x+y}{2}) - f(x)} + \frac{1}{2}\norm{f(\frac{x+y}{2}) - f(y)} = \frac{\norm{x-y}{2}
+\end{align*}  
+For any bijective isometry $f$ we can, however, contr
+
+\end{proof}
 \end{document}
